@@ -3,6 +3,7 @@ import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import storybook from 'eslint-plugin-storybook';
 import globals from 'globals';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
@@ -12,6 +13,8 @@ export default [
   },
 
   js.configs.recommended,
+
+  ...storybook.configs['flat/recommended'],
 
   {
     languageOptions: {
@@ -59,7 +62,38 @@ export default [
         ...globals.node,
       },
     },
-    rules: {},
+  },
+
+  {
+    files: ['.storybook/**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+      globals: {
+        ...globals.node,
+      },
+    },
+    plugins: {
+      storybook,
+    },
+  },
+
+  {
+    files: ['**/*.test.{ts,tsx}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+      },
+    },
   },
 
   eslintConfigPrettier,

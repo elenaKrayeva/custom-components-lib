@@ -34,7 +34,11 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              esModule: true,
+              modules: {
+                namedExport: false,
+                exportLocalsConvention: 'camelCaseOnly',
+              },
             },
           },
         ],
