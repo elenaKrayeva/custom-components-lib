@@ -202,3 +202,40 @@
 .filled.disabled .control {
   background: rgba(0, 0, 0, 0.04);
 }
+
+.trigger,
+.fieldset {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.outlined:not(.disabled):not(.error) .control:hover .fieldset {
+  border-color: #6f6f6f;
+}
+
+.outlined .trigger:focus-visible {
+  outline: none;
+}
+
+.filled:not(.disabled) .control:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+.filled:not(.disabled) .control:hover .trigger:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.filled .trigger:focus-visible {
+  outline: 2px solid var(--sel-focus);
+  outline-offset: 2px;
+}
+
+.standard:not(.disabled) .trigger:hover:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.standard .trigger:focus-visible {
+  outline: 2px solid var(--sel-focus);
+  outline-offset: 2px;
+}

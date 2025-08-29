@@ -160,3 +160,36 @@
   border-color: #e0e0e0;
   box-shadow: none;
 }
+
+.input,
+.fieldset {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.outlined:not(.disabled):not(.error) .fieldset:hover {
+  border-color: #6f6f6f;
+}
+
+.filled:not(.disabled) .inputWrapper:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+.filled:not(.disabled) .inputWrapper:hover .input:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.filled .input:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.standard:not(.disabled) .input:hover:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.standard .input:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}

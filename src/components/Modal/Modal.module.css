@@ -1,0 +1,42 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  animation: fadeIn 120ms ease-out;
+}
+
+.paper {
+  background: #fff;
+  color: #111;
+  border-radius: 8px;
+  box-shadow:
+    0 10px 15px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  max-width: min(90vw, 600px);
+  max-height: 90vh;
+  overflow: auto;
+  animation: zoomIn 140ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes zoomIn {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

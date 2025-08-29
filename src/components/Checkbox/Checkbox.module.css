@@ -69,3 +69,19 @@
   line-height: 20px;
   user-select: none;
 }
+
+.root:hover .input:not(:disabled):not(:checked):not([data-indeterminate]) {
+  border-color: #6f6f6f;
+}
+.root:hover .input:not(:disabled):checked,
+.root:hover .input:not(:disabled)[data-indeterminate]:not(:checked) {
+  background-color: #1565c0;
+  border-color: #1565c0;
+}
+
+.root:active .input:not(:disabled):checked::after {
+  transform: translate(-50%, calc(-50% - 3px)) rotate(45deg) scale(0.98);
+}
+.root:active .input:not(:disabled)[data-indeterminate]:not(:checked)::after {
+  transform: translate(-50%, -50%) scaleX(0.96);
+}
