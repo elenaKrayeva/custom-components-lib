@@ -1,5 +1,8 @@
-node_modules
-node_modules
-
-*storybook.log
-storybook-static
+node_modules/
+coverage/
+dist/
+storybook-static/
+*.log
+.DS_Store
+.vscode/
+*.tsbuildinfo
