@@ -20,8 +20,11 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./dist/styles.css": "./dist/styles.css"
   },
+  "style": "./dist/styles.css",
   "files": [
     "dist"
   ],
