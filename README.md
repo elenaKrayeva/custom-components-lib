@@ -1,7 +1,7 @@
 # custom-components-lib
 
 ## Task
-Add the link to the assignment here: **[Task Specification](https://drive.google.com/file/d/1C148FRnWfXVoRDslDWcYac3bEhebdIAV/view)**
+The link to the assignment here: **[Task Specification](https://drive.google.com/file/d/1C148FRnWfXVoRDslDWcYac3bEhebdIAV/view)**
 
 ## How to run the app
 **Prerequisites**
