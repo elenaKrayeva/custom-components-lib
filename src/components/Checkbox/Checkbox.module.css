@@ -1,0 +1,87 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.root:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #9e9e9e;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+  cursor: inherit;
+  outline: none;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.input:checked {
+  background-color: #1976d2;
+  border-color: #1976d2;
+}
+.input:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, calc(-50% - 3px)) rotate(45deg);
+}
+
+.input[data-indeterminate]:not(:checked) {
+  background-color: #1976d2;
+  border-color: #1976d2;
+}
+.input[data-indeterminate]:not(:checked)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+}
+
+.input:focus-visible {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 20px;
+  user-select: none;
+}
+
+.root:hover .input:not(:disabled):not(:checked):not([data-indeterminate]) {
+  border-color: #6f6f6f;
+}
+.root:hover .input:not(:disabled):checked,
+.root:hover .input:not(:disabled)[data-indeterminate]:not(:checked) {
+  background-color: #1565c0;
+  border-color: #1565c0;
+}
+
+.root:active .input:not(:disabled):checked::after {
+  transform: translate(-50%, calc(-50% - 3px)) rotate(45deg) scale(0.98);
+}
+.root:active .input:not(:disabled)[data-indeterminate]:not(:checked)::after {
+  transform: translate(-50%, -50%) scaleX(0.96);
+}
