@@ -1,0 +1,52 @@
+.button {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  border-radius: 4px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.small {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+}
+
+.medium {
+  padding: 6px 16px;
+  font-size: 0.875rem;
+}
+
+.large {
+  padding: 8px 22px;
+  font-size: 1rem;
+}
+
+.contained {
+  background-color: #1976d2;
+  color: #fff;
+}
+.contained:hover {
+  background-color: #1565c0;
+}
+
+.outlined {
+  background-color: transparent;
+  border: 1px solid rgba(25, 118, 210, 0.5);
+  color: #1976d2;
+}
+.outlined:hover {
+  border-color: #1976d2;
+  background-color: rgba(25, 118, 210, 0.04);
+}
+
+.text {
+  background-color: transparent;
+  color: #1976d2;
+}
+.text:hover {
+  background-color: rgba(25, 118, 210, 0.04);
+}

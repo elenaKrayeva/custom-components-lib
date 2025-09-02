@@ -1,0 +1,241 @@
+:root {
+  --sel-border: #c4c7cf;
+  --sel-focus: #1976d2;
+  --sel-error: #d32f2f;
+  --sel-text: #111;
+  --sel-muted: #666;
+  --sel-bg-filled: rgba(0, 0, 0, 0.06);
+  --sel-radius: 4px;
+  --sel-shadow-focus: 0 0 0 1px var(--sel-focus) inset;
+}
+
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  font-family: sans-serif;
+  color: var(--sel-text);
+}
+.fullWidth {
+  width: 100%;
+}
+.control {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--sel-border);
+  border-radius: var(--sel-radius);
+  background: transparent;
+  padding: 12px 40px 12px 12px;
+  font-size: 1rem;
+  line-height: 1.4;
+  cursor: pointer;
+  outline: none;
+}
+
+.disabled .trigger {
+  cursor: not-allowed;
+  color: #9e9e9e;
+  border-color: #e0e0e0;
+}
+
+.value {
+  color: var(--sel-text);
+}
+.placeholder {
+  color: var(--sel-muted);
+}
+
+.icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 120ms ease;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #666;
+  pointer-events: none;
+}
+.iconOpen {
+  transform: translateY(-50%) rotate(180deg);
+}
+.disabled .icon {
+  border-top-color: #bdbdbd;
+}
+
+.outlined .trigger {
+  border: none;
+  border-radius: 0;
+  padding: 16px 40px 14px 12px;
+}
+.fieldset {
+  position: relative;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid var(--sel-border);
+  border-radius: var(--sel-radius);
+}
+.fieldset:focus-within {
+  border-color: var(--sel-focus);
+  box-shadow: var(--sel-shadow-focus);
+}
+.legend {
+  float: unset;
+  width: auto;
+  height: 0;
+  font-size: 0.75rem;
+  padding: 0;
+  visibility: hidden;
+}
+.legend span {
+  padding: 0 4px;
+  visibility: visible;
+  color: var(--sel-muted);
+  background: #fff;
+  position: relative;
+  top: -6px;
+}
+.fieldset:focus-within .legend span {
+  color: var(--sel-focus);
+}
+
+.filled .control {
+  background: var(--sel-bg-filled);
+  border-top-left-radius: var(--sel-radius);
+  border-top-right-radius: var(--sel-radius);
+  padding-top: 8px;
+}
+.filled .label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 0.75rem;
+  color: var(--sel-muted);
+}
+.filled .trigger {
+  border: none;
+  border-radius: 0;
+  padding: 16px 40px 8px 12px;
+  border-bottom: 1px solid var(--sel-border);
+  background: transparent;
+}
+.filled .trigger:focus {
+  border-bottom: 2px solid var(--sel-focus);
+  box-shadow: none;
+}
+
+.standard .label {
+  font-size: 0.875rem;
+  margin-bottom: 4px;
+  color: var(--sel-text);
+}
+.standard .trigger {
+  border: none;
+  border-radius: 0;
+  padding: 8px 40px 8px 0;
+  border-bottom: 1px solid var(--sel-border);
+}
+.standard .trigger:focus {
+  border-bottom: 2px solid var(--sel-focus);
+  box-shadow: none;
+}
+
+.listbox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 10;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid var(--sel-border);
+  border-radius: var(--sel-radius);
+  max-height: 240px;
+  overflow: auto;
+  padding: 6px 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.option[data-disabled] {
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+.option:hover:not([data-disabled]),
+.option[data-highlighted]:not([data-disabled]) {
+  background: rgba(25, 118, 210, 0.08);
+}
+.option[data-selected] {
+  font-weight: 600;
+}
+
+.error .trigger {
+  border-color: var(--sel-error) !important;
+  box-shadow: none;
+}
+.error .fieldset {
+  border-color: var(--sel-error) !important;
+  box-shadow: none;
+}
+.error .legend span,
+.error .label {
+  color: var(--sel-error);
+}
+
+.disabled .label,
+.disabled .legend span {
+  color: #9e9e9e;
+}
+.disabled .fieldset {
+  border-color: #e0e0e0;
+  box-shadow: none;
+}
+.filled.disabled .control {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.trigger,
+.fieldset {
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.outlined:not(.disabled):not(.error) .control:hover .fieldset {
+  border-color: #6f6f6f;
+}
+
+.outlined .trigger:focus-visible {
+  outline: none;
+}
+
+.filled:not(.disabled) .control:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+.filled:not(.disabled) .control:hover .trigger:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.filled .trigger:focus-visible {
+  outline: 2px solid var(--sel-focus);
+  outline-offset: 2px;
+}
+
+.standard:not(.disabled) .trigger:hover:not(:focus) {
+  border-bottom-color: #6f6f6f;
+}
+
+.standard .trigger:focus-visible {
+  outline: 2px solid var(--sel-focus);
+  outline-offset: 2px;
+}
