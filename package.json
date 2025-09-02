@@ -1,6 +1,6 @@
 {
   "name": "@alena.k/custom-components-lib",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React UI components library (TypeScript, Webpack, CSS Modules).",
   "license": "MIT",
   "author": "AlenaK",
