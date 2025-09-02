@@ -1,4 +1,5 @@
 import React, { forwardRef, useRef, useState, useEffect } from 'react';
+import clsx from 'clsx';
 import styles from './Select.module.css';
 
 export type SelectVariant = 'outlined' | 'filled' | 'standard';
@@ -52,46 +53,70 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node;
   };
 
-  useEffect(() => {
-    if (!open) return;
-    const handleClickOutside = (e: globalThis.MouseEvent) => {
-      if (!rootRef.current) return;
-      if (e.target instanceof Node && !rootRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [open]);
-
-  const setValue = (v: string) => {
-    if (!isControlled) setInternalValue(v);
-    onChange?.(v);
+  const setValue = (next: string) => {
+    if (!isControlled) setInternalValue(next);
+    onChange?.(next);
   };
 
   const toggleOpen = () => {
-    if (!disabled) setOpen((o) => !o);
+    if (!disabled) setOpen((prev) => !prev);
   };
 
-  const handleOptionClick = (opt: SelectOption) => {
-    if (opt.disabled) return;
-    setValue(opt.value);
-    setOpen(false);
+  const focusButton = () => {
     buttonRef.current?.focus();
   };
 
-  const displayLabel = options.find((o) => o.value === currentValue)?.label ?? placeholder ?? '';
+  const handleOptionChoose = (selectedValue: string) => {
+    setValue(selectedValue);
+    setOpen(false);
+    focusButton();
+  };
 
-  const rootClass = [
+  const handleListMouseDown = (event: React.MouseEvent<HTMLUListElement>) => {
+    event.preventDefault();
+  };
+
+  const handleListClick = (event: React.MouseEvent<HTMLUListElement>) => {
+    const target = event.target as HTMLElement | null;
+    const item = target?.closest('li[data-value]') as HTMLLIElement | null;
+    if (!item) return;
+
+    const isDisabled = item.getAttribute('data-disabled') != null;
+    if (isDisabled) return;
+
+    const selectedValue = item.getAttribute('data-value');
+    if (selectedValue != null) {
+      handleOptionChoose(selectedValue);
+    }
+  };
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleDocumentMouseDown = (event: globalThis.MouseEvent) => {
+      if (!rootRef.current) return;
+      if (event.target instanceof Node && !rootRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleDocumentMouseDown);
+    return () => document.removeEventListener('mousedown', handleDocumentMouseDown);
+  }, [open]);
+
+  const displayLabel =
+    options.find((option) => option.value === currentValue)?.label ?? placeholder ?? '';
+
+  const rootClassName = clsx(
     styles.root,
     styles[variant],
-    error && styles.error,
-    disabled && styles.disabled,
-    fullWidth && styles.fullWidth,
+    {
+      [styles.error]: error,
+      [styles.disabled]: disabled,
+      [styles.fullWidth]: fullWidth,
+    },
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   const trigger = (
     <button
@@ -100,28 +125,36 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
       className={styles.trigger}
       onClick={toggleOpen}
       disabled={disabled}
+      aria-haspopup="listbox"
+      aria-expanded={open}
     >
       <span className={styles.value}>
         {displayLabel || <span className={styles.placeholder}>{placeholder ?? ''}</span>}
       </span>
-      <span className={[styles.icon, open && styles.iconOpen].filter(Boolean).join(' ')} />
+      <span className={clsx(styles.icon, { [styles.iconOpen]: open })} />
     </button>
   );
 
   const list = open ? (
-    <ul className={styles.listbox}>
-      {options.map((opt) => {
-        const selected = opt.value === currentValue;
+    <ul
+      className={styles.listbox}
+      role="listbox"
+      onMouseDown={handleListMouseDown}
+      onClick={handleListClick}
+    >
+      {options?.map((option) => {
+        const selected = option.value === currentValue;
         return (
           <li
-            key={opt.value}
+            key={option.value}
+            role="option"
+            aria-selected={selected}
             data-selected={selected || undefined}
-            data-disabled={opt.disabled || undefined}
+            data-disabled={option.disabled || undefined}
+            data-value={option.value}
             className={styles.option}
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => handleOptionClick(opt)}
           >
-            {opt.label}
+            {option.label}
           </li>
         );
       })}
@@ -129,7 +162,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   ) : null;
 
   return (
-    <div ref={rootRef} className={rootClass}>
+    <div ref={rootRef} className={rootClassName}>
       <div className={styles.control}>
         {variant === 'outlined' ? (
           <fieldset className={styles.fieldset}>

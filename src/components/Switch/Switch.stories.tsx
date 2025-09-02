@@ -47,7 +47,7 @@ export const WithLabel: Story = {
   },
 };
 
-function ControlledExample(props: React.ComponentProps<typeof Switch>) {
+const ControlledExample = (props: React.ComponentProps<typeof Switch>) => {
   const [on, setOn] = useState(false);
   return (
     <Switch
@@ -57,7 +57,7 @@ function ControlledExample(props: React.ComponentProps<typeof Switch>) {
       label={`Controlled: ${on ? 'On' : 'Off'}`}
     />
   );
-}
+};
 
 export const Controlled: Story = {
   render: (args) => <ControlledExample {...args} />,

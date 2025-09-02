@@ -1,4 +1,5 @@
 import React, { forwardRef, useId } from 'react';
+import clsx from 'clsx';
 import styles from './TextField.module.css';
 
 export type TextFieldVariant = 'outlined' | 'standard' | 'filled';
@@ -14,20 +15,20 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     const reactId = useId();
     const inputId = id ?? `textfield-${reactId}`;
 
+    const rootClassName = clsx(
+      styles.root,
+      styles[variant],
+      {
+        [styles.error]: error,
+        [styles.disabled]: disabled,
+      },
+      className,
+    );
+
     return (
-      <div
-        className={[
-          styles.root,
-          styles[variant],
-          error && styles.error,
-          disabled && styles.disabled,
-          className,
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        {variant === 'outlined' ? (
-          <div className={styles.inputWrapper}>
+      <div className={rootClassName}>
+        <div className={styles.inputWrapper}>
+          {variant === 'outlined' ? (
             <fieldset className={styles.fieldset}>
               <legend className={styles.legend}>
                 {label ? <span>{label}</span> : <span>&#8203;</span>}
@@ -41,24 +42,24 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
                 {...rest}
               />
             </fieldset>
-          </div>
-        ) : (
-          <div className={styles.inputWrapper}>
-            {label && (
-              <label htmlFor={inputId} className={styles.label}>
-                {label}
-              </label>
-            )}
-            <input
-              id={inputId}
-              ref={ref}
-              className={styles.input}
-              aria-invalid={error || undefined}
-              disabled={disabled}
-              {...rest}
-            />
-          </div>
-        )}
+          ) : (
+            <>
+              {label && (
+                <label htmlFor={inputId} className={styles.label}>
+                  {label}
+                </label>
+              )}
+              <input
+                id={inputId}
+                ref={ref}
+                className={styles.input}
+                aria-invalid={error || undefined}
+                disabled={disabled}
+                {...rest}
+              />
+            </>
+          )}
+        </div>
       </div>
     );
   },

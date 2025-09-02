@@ -26,7 +26,7 @@ export const Closed: Story = {
   },
 };
 
-function OpenInteractive(props: React.ComponentProps<typeof Modal>) {
+const OpenInteractive = (props: React.ComponentProps<typeof Modal>) => {
   const [open, setOpen] = useState(true);
   return (
     <div style={{ display: 'grid', gap: 12 }}>
@@ -43,9 +43,9 @@ function OpenInteractive(props: React.ComponentProps<typeof Modal>) {
       <button onClick={() => setOpen(true)}>Open modal</button>
     </div>
   );
-}
+};
 
-function WithLongContentInteractive(props: React.ComponentProps<typeof Modal>) {
+const WithLongContentInteractive = (props: React.ComponentProps<typeof Modal>) => {
   const [open, setOpen] = useState(true);
   return (
     <div style={{ display: 'grid', gap: 12 }}>
@@ -62,7 +62,7 @@ function WithLongContentInteractive(props: React.ComponentProps<typeof Modal>) {
       <button onClick={() => setOpen(true)}>Open modal</button>
     </div>
   );
-}
+};
 
 export const Open: Story = {
   render: (args) => (
@@ -86,7 +86,7 @@ export const WithLongContent: Story = {
   ),
 };
 
-function ControlledExample(props: React.ComponentProps<typeof Modal>) {
+const ControlledExample = (props: React.ComponentProps<typeof Modal>) => {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ display: 'grid', gap: 12 }}>
@@ -111,7 +111,7 @@ function ControlledExample(props: React.ComponentProps<typeof Modal>) {
       </Modal>
     </div>
   );
-}
+};
 
 export const Controlled: Story = {
   render: (args) => <ControlledExample {...args} />,

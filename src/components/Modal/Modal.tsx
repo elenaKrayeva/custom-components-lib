@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import clsx from 'clsx';
 import styles from './Modal.module.css';
 
 export interface ModalProps {
@@ -11,24 +12,26 @@ export interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({ open, onClose, children, className }) => {
   const portalElRef = useRef<HTMLDivElement | null>(null);
+
   if (!portalElRef.current && typeof document !== 'undefined') {
     portalElRef.current = document.createElement('div');
     portalElRef.current.setAttribute('data-modal-root', '');
   }
 
   useEffect(() => {
-    const el = portalElRef.current;
-    if (!el || typeof document === 'undefined') return;
-    document.body.appendChild(el);
+    const element = portalElRef.current;
+    if (!element || typeof document === 'undefined') return;
+    document.body.appendChild(element);
     return () => {
-      if (el.parentNode) el.parentNode.removeChild(el);
+      if (element.parentNode) element.parentNode.removeChild(element);
     };
   }, []);
 
   useEffect(() => {
     if (!open) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose?.();
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose?.();
     };
     document.addEventListener('keydown', handleKey);
 
@@ -43,16 +46,24 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, children, className
 
   if (!portalElRef.current) return null;
 
+  const handleBackdropMouseDown = () => {
+    onClose?.();
+  };
+
+  const handleDialogMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  };
+
   return ReactDOM.createPortal(
     open ? (
-      <div className={styles.backdrop} onMouseDown={() => onClose?.()} aria-hidden>
+      <div className={styles.backdrop} onMouseDown={handleBackdropMouseDown} aria-hidden>
         <div
-          className={[styles.paper, className].filter(Boolean).join(' ')}
+          className={clsx(styles.paper, className)}
           role="dialog"
           aria-modal="true"
-          onMouseDown={(e) => e.stopPropagation()}
+          onMouseDown={handleDialogMouseDown}
         >
-          {children}
+          <div className={styles.paperInner}>{children}</div>
         </div>
       </div>
     ) : null,

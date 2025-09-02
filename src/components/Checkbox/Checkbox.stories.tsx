@@ -38,7 +38,7 @@ export const Indeterminate: Story = {
   render: (args) => <Checkbox {...args} indeterminate label="Indeterminate" />,
 };
 
-function ControlledExample(props: React.ComponentProps<typeof Checkbox>) {
+const ControlledExample = (props: React.ComponentProps<typeof Checkbox>) => {
   const [checked, setChecked] = useState(false);
   return (
     <Checkbox
@@ -48,7 +48,7 @@ function ControlledExample(props: React.ComponentProps<typeof Checkbox>) {
       onChange={(e) => setChecked(e.target.checked)}
     />
   );
-}
+};
 
 export const Controlled: Story = {
   render: (args) => <ControlledExample {...args} />,

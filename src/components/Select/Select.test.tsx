@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+/// <reference types="@testing-library/jest-dom" />
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -9,13 +11,8 @@ const options: SelectOption[] = [
   { value: 'c', label: 'Gamma', disabled: true },
 ];
 
-function getTrigger() {
-  return screen.getByRole('button');
-}
-
-function getListbox() {
-  return screen.getByRole('list', { hidden: true });
-}
+const getTrigger = () => screen.getByRole('button');
+const getListbox = () => screen.getByRole('listbox');
 
 describe('Select', () => {
   test('renders placeholder when no value is set', () => {
@@ -38,10 +35,10 @@ describe('Select', () => {
     render(<Select options={options} />);
 
     await user.click(getTrigger());
-    expect(screen.getByRole('list', { hidden: true })).toBeInTheDocument();
+    expect(getListbox()).toBeInTheDocument();
 
     await user.click(getTrigger());
-    expect(screen.queryByRole('list', { hidden: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 
   test('closes when clicking outside the component', async () => {
@@ -54,10 +51,10 @@ describe('Select', () => {
     );
 
     await user.click(getTrigger());
-    expect(screen.getByRole('list', { hidden: true })).toBeInTheDocument();
+    expect(getListbox()).toBeInTheDocument();
 
     await user.click(screen.getByTestId('outside'));
-    expect(screen.queryByRole('list', { hidden: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 
   test('calls onChange and closes when an option is selected', async () => {
@@ -66,10 +63,11 @@ describe('Select', () => {
     render(<Select options={options} onChange={onChange} />);
 
     await user.click(getTrigger());
-    await user.click(within(getListbox()).getByText('Beta'));
+    const listbox = getListbox();
+    await user.click(within(listbox).getByRole('option', { name: 'Beta' }));
 
     expect(onChange).toHaveBeenCalledWith('b');
-    expect(screen.queryByRole('list', { hidden: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     expect(getTrigger()).toHaveFocus();
   });
 
@@ -79,7 +77,8 @@ describe('Select', () => {
     render(<Select options={options} onChange={onChange} />);
 
     await user.click(getTrigger());
-    await user.click(within(getListbox()).getByText('Gamma'));
+    const listbox = getListbox();
+    await user.click(within(listbox).getByRole('option', { name: 'Gamma' }));
 
     expect(onChange).not.toHaveBeenCalled();
     expect(getListbox()).toBeInTheDocument();
@@ -90,7 +89,7 @@ describe('Select', () => {
     render(<Select options={options} disabled />);
 
     await user.click(getTrigger());
-    expect(screen.queryByRole('list', { hidden: true })).not.toBeInTheDocument();
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 
   test('uncontrolled: defaultValue sets initial label', () => {
@@ -115,7 +114,7 @@ describe('Select', () => {
 
     expect(getTrigger()).toHaveTextContent('Alpha');
     await user.click(getTrigger());
-    await user.click(within(getListbox()).getByText('Beta'));
+    await user.click(within(getListbox()).getByRole('option', { name: 'Beta' }));
 
     expect(screen.getByTestId('current')).toHaveTextContent('b');
     expect(getTrigger()).toHaveTextContent('Beta');
